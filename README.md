@@ -1,2 +1,176 @@
-# Object-Detection-Model-Comparison-YOLO-vs-SSD-on-Pascal-VOC
-Deep learning project comparing YOLO and SSD object detection models on the Pascal VOC dataset using PyTorch. The study evaluates model performance using precision, recall, and mean average precision metrics.
+# Object Detection Model Comparison
+
+## Overview
+
+This project investigates deep learning approaches for automated object detection by training and evaluating two different detection models on the Pascal VOC dataset. The goal is to examine how different model architectures perform when detecting and localizing objects in images.
+
+The project compares model performance using standard object detection metrics such as precision, recall, and mean average precision (mAP).
+
+Since notebook environments may impose GPU limits and runtime interruptions, the experiments were executed using Modal, which provides stable access to GPU resources and longer runtime sessions. This allowed the models to train and evaluate without interruption.
+
+---
+
+## Dataset
+
+The dataset used in this project is the **Pascal VOC dataset**, a widely used benchmark dataset for object detection tasks.
+
+Key characteristics:
+
+- Contains images with annotated bounding boxes
+- Includes 20 object classes
+- Uses an additional background class during training
+
+The dataset is stored as a compressed archive and extracted using Python before being loaded into the training pipeline.
+
+---
+
+## Project Workflow
+
+The project follows the pipeline below:
+
+1. Load and extract the Pascal VOC dataset  
+2. Visualize sample images and bounding box annotations  
+3. Train an object detection model using YOLO  
+4. Evaluate the YOLO model using detection metrics  
+5. Train a second model using the SSD architecture  
+6. Evaluate the SSD model on the validation dataset  
+7. Compare the performance of the two models  
+
+---
+
+## Models Used
+
+### YOLO Model
+
+The first model used in the project is a YOLO based object detection model.
+
+YOLO (You Only Look Once) is a single stage detector that predicts bounding boxes and class probabilities directly from the input image. This architecture is known for its high detection accuracy, efficiency, and real time detection capability.
+
+The model was trained on the Pascal VOC dataset and evaluated using standard object detection metrics.
+
+---
+
+### SSD Model
+
+The second model used for comparison is the Single Shot Detector (SSD) with a VGG16 backbone implemented using the `torchvision` library.
+
+Key implementation details:
+
+- Initialized with pretrained weights
+- The classification head was modified to support 21 classes  
+  - 20 Pascal VOC object classes  
+  - 1 background class
+- Trained using Stochastic Gradient Descent (SGD)
+
+The model was then evaluated on the validation dataset using detection metrics.
+
+---
+
+## Evaluation Metrics
+
+Model performance was evaluated using the following metrics:
+
+- Precision
+- Recall
+- mAP@0.5 (Mean Average Precision at IoU = 0.5)
+- mAP@0.5:0.95 (Mean Average Precision across multiple IoU thresholds)
+
+These metrics measure both detection accuracy and how well predicted bounding boxes match the ground truth annotations.
+
+---
+
+## Results Summary
+
+### YOLO Performance
+
+```
+Precision: 0.695
+Recall:    0.613
+mAP@0.5:   0.664
+mAP@0.5:0.95: 0.487
+```
+
+The YOLO model demonstrated strong and balanced performance across object categories with reliable localization and detection accuracy.
+
+---
+
+### SSD Performance
+
+```
+mAP:     0.379
+mAP@0.5: 0.623
+Recall:  0.524
+```
+
+The SSD model detected many objects but produced lower overall accuracy compared to the YOLO model, particularly at stricter intersection over union thresholds.
+
+---
+
+## Model Comparison
+
+When comparing both models, the YOLO architecture outperformed the SSD model across most evaluation metrics. YOLO achieved higher precision, higher recall, and a significantly higher overall mean average precision.
+
+Although SSD achieved a relatively competitive score at the lower IoU threshold, its performance declined more noticeably at stricter thresholds, which indicates weaker localization precision.
+
+In addition, SSD required longer training time to reach convergence, while YOLO trained more efficiently.
+
+These results indicate that YOLO provides more reliable, consistent, and computationally efficient object detection performance on the Pascal VOC dataset, while SSD serves as a useful baseline model.
+
+---
+
+## Project Structure
+
+```
+object-detection-comparison
+│
+├── data
+│   └── pascal_voc
+│
+├── notebooks
+│   ├── yolo_training.ipynb
+│   └── ssd_training.ipynb
+│
+├── models
+│   ├── yolo_weights
+│   └── ssd_weights
+│
+├── outputs
+│   ├── predictions
+│   └── evaluation_results
+│
+├── README.md
+└── requirements.txt
+```
+
+---
+
+## Example Output
+
+Example predictions generated by the trained object detection models include bounding boxes around detected objects along with predicted class labels and confidence scores.
+
+Example detections include:
+
+- Person
+- Dog
+- Car
+- Bicycle
+- Chair
+
+Predictions are stored in the `outputs/predictions` directory.
+
+---
+
+## Technologies Used
+
+- Python  
+- PyTorch  
+- Torchvision  
+- Ultralytics YOLO  
+- Modal (GPU execution environment)
+
+---
+
+## Author
+
+**Faniyo Noor Mohamud**  
+BSc Data Science and Analytics
